@@ -1,6 +1,6 @@
 # HANDOFF: where the EMA work stands
 
-Last updated 22 Nov 2026, ~16:50 IST. The repo was renamed from `EMA` to `remembered-failure` (the old URL redirects).
+Last updated 22 Nov 2026, ~17:40 IST. The repo was renamed from `EMA` to `remembered-failure` (the old URL redirects).
 
 ## Done (all committed and pushed)
 - Repo restructured, README written with pre-registered H1–H4. Pilots 1 and 2 done ([results/README.md](results/README.md)).
@@ -13,8 +13,8 @@ Last updated 22 Nov 2026, ~16:50 IST. The repo was renamed from `EMA` to `rememb
 - Kernel: `claude01012000/ema-confirmatory-qwen3-4b` (private). Logs dataset: `claude01012000/ema-confirmatory-logs` (private).
 - Progress: **1,516/2,060 unique finished samples after session 5** (ran 22 Nov 02:56–14:00 IST). Session 5 added 400 (~36/hour). Session 4 added only 182, so its slowdown was specific to that session. At ~36/hour, the remaining 544 need ~15 GPU-hours (about 2 sessions). The logs dataset was versioned "after session 5 (1516/2060)"; a local recount of the uploaded files gives 1,516.
 - **Session 6 pushed 22 Nov ~14:05 IST as kernel version 8, with `DEADLINE_HOURS = 4.5`** (the `EMA-work/ckernel` copy only; the repo notebook keeps 11.0). The point is to fit the ~7.5 GPU-hours left this week, so Kaggle does not cut the session off before its logs are saved. It's a scheduling change, like the concurrency fix; no study setting changed.
-  - Version 7 was pushed a minute earlier by mistake, with the 11-hour limit. **Both started at ~16:20 IST and both are RUNNING** (quota burn 2.00 GPU-s/s; the status API with `version_label="v7"` / `"v8"` confirms it). Both resume from the same 1,516 samples, so version 7 only duplicates version 8's work. At 2× burn the quota runs out ~20:00 IST and both would be killed before saving. **Version 7 must be cancelled in the Kaggle web UI by ~19:00 IST**. The API's cancel call needs a session id that no API call returns. Watcher: `EMA-work/session_watch.py v7`.
-  - If version 7 is not cancelled in time, nothing already collected is lost; session 6's new samples are, and the remaining ~544 move to after the 28 Nov reset.
+  - Version 7 was pushed a minute earlier by mistake, with the 11-hour limit. **Both started at ~16:20 IST and both are RUNNING** (quota burn 2.00 GPU-s/s; the status API with `version_label="v7"` / `"v8"` confirms it). Both resume from the same 1,516 samples, so version 7 only duplicates version 8's work. At 2× burn the quota runs out ~20:00 IST and both would be killed before saving. Nischal cancelled version 7 in the Kaggle web UI at ~17:30 IST (after 1 h 16 min; the API's cancel call needs a session id that no API call returns). Version 8 keeps running and should end ~20:50 IST. Watcher: `EMA-work/session_watch.py v8`.
+  - After the cancel, the quota API's `timeUsed` dropped from ~83,600 s (16:39) to ~3,800 s (17:35). Unexplained; don't trust that field until it's re-checked against the Kaggle settings page.
   - Set `DEADLINE_HOURS` back to 11.0 in `EMA-work/ckernel` before session 7.
 - **Quota API:** `kagglesdk`'s `get_accelerator_quota_statistics` gives the real figures (used 22.5 h on 22 Nov 14:05; refresh `2026-11-28T00:00Z` = Sat 05:30 IST). See `EMA-work/quota_watch.py`; per-version status via `version_label="v<N>"` in `EMA-work/session_watch.py`. Note that `timeUsed` comes back in an odd format, e.g. `80980.375.0s`.
 - Disclosure: while reading session 4's kernel log for the sample count, one line of its per-condition summary was seen (`original` split, condition B: pass 0.15, flag 0.77). It is recorded in the README disclosure. Read only the `unique finished samples` line from now on.
